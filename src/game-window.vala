@@ -107,6 +107,8 @@ private class GameWindow : ApplicationWindow
         _init_window_state (this);
         _load_window_state (this, ref _settings);
 
+        _header_bar._connect_go_button();
+
         _header_bar.popover_closed.connect (() => _embed.grab_focus ());
         _settings.changed.connect ((settings, key_name) => {
                 switch (key_name)
@@ -136,6 +138,8 @@ private class GameWindow : ApplicationWindow
         set_events (get_events () | Gdk.EventMask.STRUCTURE_MASK | Gdk.EventMask.KEY_PRESS_MASK | Gdk.EventMask.KEY_RELEASE_MASK);
     }
 
+
+
     /*\
     * * window state
     \*/
@@ -154,11 +158,14 @@ private class GameWindow : ApplicationWindow
         _this.window_state_event.connect (state_event_cb);
         _this.size_allocate.connect (size_allocate_cb);
 
+
         Gdk.Geometry geom = Gdk.Geometry ();
         geom.min_height = WINDOW_MINIMUM_SIZE_HEIGHT;
         geom.min_width = WINDOW_MINIMUM_SIZE_WIDTH;
         _this.set_geometry_hints (_this, geom, Gdk.WindowHints.MIN_SIZE);
     }
+
+
 
     private static void _load_window_state (GameWindow _this, ref GLib.Settings _settings)
     {
@@ -271,6 +278,7 @@ private class GameWindow : ApplicationWindow
     private void new_game_sized_cb (SimpleAction action, Variant? variant)
         requires (variant != null)
     {
+        print("starting... new_game_sized_cb");
         uint8 rows, cols;
         ((!) variant).@get ("(yy)", out rows, out cols);
         _settings.delay ();

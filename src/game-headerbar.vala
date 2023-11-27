@@ -26,6 +26,8 @@ private class GameHeaderBar : HeaderBar
     [GtkChild] private unowned Label        _score;
     [GtkChild] private unowned MenuButton   _new_game_button;
     [GtkChild] private unowned MenuButton   _hamburger_button;
+    [GtkChild] private unowned Button       _go_button;
+    [GtkChild] private unowned ComboBoxText _choose_size;
 
     /*\
     * * popovers
@@ -128,6 +130,197 @@ private class GameHeaderBar : HeaderBar
     internal void toggle_hamburger_menu ()
     {
         _hamburger_button.active = !_hamburger_button.active;
+    }
+
+    internal void _connect_go_button () {
+        //  var go_button = this.get_object ("_go_button") as Gtk.Button;
+        //  go_button.clicked.connect (on_go_button_clicked);
+        _go_button.clicked.connect(on_go_button_clicked);
+    }
+
+    void on_go_button_clicked (Button source) {
+        // var choose_size = this.get_object ("_choose_size") as Gtk.ComboBoxText;
+        string size = _choose_size.get_active_text ();
+        // Print the size to the console
+        print ("Size: %s\n", size);
+
+        var rows = int.parse (size.split ("x")[0]);
+        var cols = int.parse (size.split ("x")[1]);
+        //  Variant variant = new Variant ("(yy)", rows, cols);
+
+        print ("Rows: %d Cols: %d\n", rows, cols);
+
+        var window = get_toplevel () as Gtk.Window;
+            //  print("Windows: %s\n", window );
+        //  if (window != null) {
+        //      var window2 = ((!)window);
+        //      var title = window2.get_title ();
+        //      if (title != null) {
+        //          print ("Title: %s\n", ((!)title));
+        //          //  print ("Default size: %d x %d\n", window2.get_default_size ());
+        //          //  print ("Is maximized: %s\n", window2.is_maximized () ? "Yes" : "No");
+        //          //  print ("Is active: %s\n", window2.is_active () ? "Yes" : "No");
+        //          //  print ("Is decorated: %s\n", window2.get_decorated () ? "Yes" : "No");
+        //      }
+        //  }                
+
+        //  uint8 rows, cols = 4;
+        //  Variant variant = new Variant ("(yy)", rows, cols);
+        //  Variant size_variant = new Variant.string (size);
+
+        //_go_button.activate_action("ui.new-game-sized(" + variant.print (/* annotate types */ true) + ")");
+        //  new_game_sized_cb (null, size_variant);
+        //  var app = (TwentyFortyEight) get_application ();
+        //  app.activate_action ("new-game-sized", variant);
+        //  menu.append (label, "ui.new-game-sized(" + variant.print (/* annotate types */ true) + ")");
+
+        //    var window = get_toplevel () as Gtk.Window;
+        //  if (window != null) {
+        //      var app = ((!)window).get_application () as TwentyFortyEight;
+        //      if (app != null) {
+        //          //var size = choose_size.get_active_text ();
+        //          //  var rows = int.parse (size.split ("x")[0]);
+        //          //  var cols = int.parse (size.split ("x")[1]);
+        //          Variant variant = new Variant ("(yy)", rows, cols);
+        //          print("activate_action, eh");       
+        //          ((!)app).activate_action("ui.new-game-sized", variant);
+        //          //  ((!)app).activate_action("ui.new-game-sized(" + variant.print (/* annotate types */ true) + ")");
+        //      }
+        //  }
+
+        //  var menu = _new_game_button.get_popup () as Gtk.Menu;
+        //  if (menu != null) {
+        //      var first_item = ((!)menu).get_children ().nth_data (0) as Gtk.MenuItem;
+        //      if (first_item != null) {
+        //          print("activate_action, eh");
+        //          ((!)first_item).activate ();
+        //          print("done activate_action, eh");
+        //      }
+        //  }
+
+        //  var window = get_toplevel () as Gtk.Window;
+            //  print("Windows: %s\n", window );
+        if (window != null) {
+            var window2 = ((!)window);
+            var title = window2.get_title ();
+            if (title != null) {
+                print ("Title: %s\n", ((!)title));
+                //  print ("Default size: %d x %d\n", window2.get_default_size ());
+                //  print ("Is maximized: %s\n", window2.is_maximized () ? "Yes" : "No");
+                //  print ("Is active: %s\n", window2.is_active () ? "Yes" : "No");
+                //  print ("Is decorated: %s\n", window2.get_decorated () ? "Yes" : "No");
+
+                var menu_model = _new_game_button.get_menu_model ();
+                if (menu_model == null) {
+                    print ("menu_model is null");
+                }
+                else {
+                    print("----------------menu_model is not null!!!!!!");
+                    print("items: %d", ((!)menu_model).get_n_items());
+                }
+                if (menu_model != null && ((!)menu_model).get_n_items () > 0) {
+                    print ("++++++++got here++++++++++++");
+
+                    var action_variant = ((!)menu_model).get_item_attribute_value (0, "action", null);
+                    if (action_variant != null) {
+                        var action = ((!)action_variant).get_string ();
+                        //  var app = get_application () as TwentyFortyEight;
+                        var app = ((!)window2).get_application () as TwentyFortyEight;
+                if (app != null) {
+                            //  app.activate_action (action, null);
+                            //  print("app.activate_action: %s eh\n", action);
+
+
+                            //  print("window actions:\n");
+                            //  var actionsList2 = ((!)window2).list_actions ();
+                            //  foreach (var item in actionsList2) {
+                            //      print ("%s\n", item);
+                            //  }
+
+                            print("app actions:\n");
+                            var actionsList = ((!)app).list_actions ();
+                            foreach (var item in actionsList) {
+                                print ("%s\n", item);
+                            }
+
+                            var gameWindow = ((!)app). get_window();
+         
+                            //if(gameWindow != null)
+                            
+          
+                            
+                            print("game window actions:\n");
+                            var actionsList2 = ((!)gameWindow).list_actions ();
+                            foreach (var item in actionsList2) {
+                                print ("%s\n", item);
+                            }
+
+
+                            //  uint8 rows =4; 
+                            //  uint8 cols = 4;
+                            Variant variant = new Variant ("(yy)", rows, cols);
+
+                            var action_group = ((!)gameWindow).get_action_group("ui");
+                            this.list_ui_actions(gameWindow);
+                            print("action group activate action: %s", action);    
+                            //  ((!)action_group).activate_action (((!)action), variant);
+                            // new-game-sized
+                            ((!)action_group).activate_action("new-game-sized", variant);
+                        }
+                    }
+
+
+                //      string? action = null;
+                    //    var action = ((!)menu_model).get_item_attribute (0, "action"); 
+                //      //  ((!)menu_model).get_item_attribute (0, "action", out action);
+                //      if (action != null) {
+
+                //          var app = ((!)window2).get_application () as TwentyFortyEight;
+
+                //          //  var app = get_application () as TwentyFortyEight;
+                //          if (app != null) {
+                //              print("app.activate_aciton eh");
+                //              ((!)app).activate_action (((!)action), null);
+                //          }
+                //      }
+                }
+    
+
+
+            }
+        }                
+
+
+        //  void on_go_button_clicked (Button source) {
+            //  var menu_model = _new_game_button.get_menu_model ();
+            //  if (menu_model != null && menu_model.get_n_items () > 0) {
+            //      string action = null;
+            //      ((!)menu_model).get_item_attribute (0, "action", out action);
+            //      if (action != null) {
+            //          var app = get_application () as YourApplication;
+            //          if (app != null) {
+            //              app.activate_action (action, null);
+            //          }
+            //      }
+            //  }
+        //  }
+        
+
+        //  var window = get_toplevel () as Gtk.Window;
+        //  var app = window.get_application () as TwentyFortyEight;
+        //  app.activate_action("ui.new-game-sized(" + variant.print (/* annotate types */ true) + ")");
+
+    }
+
+    void list_ui_actions(GameWindow window) {
+        print("GameWindow action group: ui\n");
+        var action_group = window.get_action_group("ui");
+        if (action_group != null) {
+            var actions = ((!)action_group).list_actions();
+            foreach (var action in actions) {
+                print("%s\n", action);
+            }
+        }
     }
 
     /*\

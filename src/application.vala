@@ -49,6 +49,10 @@ private class TwentyFortyEight : Gtk.Application
         {}
     };
 
+    public GameWindow get_window() {
+        return _window;
+    }
+    
     private bool _cli (string? option_name, string? val)
     {
         cli = option_name == null ? "" : (!) option_name;  // TODO report bug: should probably be val...
